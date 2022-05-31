@@ -1,0 +1,282 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[12pt,fleqn]{book} % Default font size, left-justified equations, chapters start on any page
+
+%----------------------------------------------------------------------------------------
+\input{structure}
+\input{structureSG} % Insert the commands.tex file which contains the majority of the structure behind the template
+
+
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\chapter*{Modularité}
+\section{API}
+\begin{definition}
+	Une API (\textbf{A}pplication \textbf{P}rogramming \textbf{I}nterface) permet aux développeur d'intégrer une application à une autre. Cela peut permettre par exemple de récupérer des données structurées depuis un site web pour les exploiter de manière automatisée dans un programme. 
+\end{definition}
+
+\subsection{Exemple}
+Nous cherchons à récupérer dans un programme python la température et à l'afficher. Pour cela, nous allons utiliser une \textit{API} existante.\\
+
+Nous allons utiliser les services d'\textit{openweathermap} (faites une recherche internet pour acceder au site). Si vous vous rendez sur le site, vous voyez bien les informations qui nous intéressent mais sous cette forme, nous ne pouvons pas les exploiter facilement. Si vous cliquez sur l'onglet \textit{API}, vous verrez tout ce que le site propose comme API. Certaines sont gratuites d'accès, d'autres payantes Dans tous les cas, pour en bénéficier, il faudra créer un compte sur le site. Pour découvrir le principe de l'utilisation de ces API, nous n'aurons pas besoin de compte car une API de démonstration suffit pour tester notre programme. Libre à vous si vous souhaitez travailler sur des données réelles et actualises de créer un compte.\\ 
+
+Nous utiliserons dans cet exemple l'API : https://openweathermap.org/current. \\
+
+On accède à une API via une URL fournie par le site. Un exemple d'une telle URL est :\\ https://samples.openweathermap.org/data/2.5/weather?zip=14200,\\fr&appid=439d4b804bc8187953eb36d2a8c26a02 \\
+
+Cette URL contient plusieurs paramètres : 
+\begin{itemize}
+	\item zip : code postal et pays
+	\item appid : clé fournie par le site quand vous avez créé un compte. Celle qui est proposée ici donne accès à des informations de démonstration. Elles ont le bon format pour nous permettre de développer et tester notre programme.
+\end{itemize}
+
+Si vous ouvrez cette URL avec FireFox, ce dernier va les présenter de manière lisible. En réalité, le fichier qui est envoyé via cette URL est un fichier au format \textbf{json} qui ressemble à \textit{une structure de dictionnaire} avec des association clé-valeur.
+
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=iPython,linewidth = 15cm]
+{
+	"coord":{"lon":-122.09,"lat":37.39},
+	"weather":[{"id":500,"main":"Rain","description":"light rain","icon":"10d"}],
+	"base":"stations",
+	"main":{"temp":280.44,"pressure":1017,"humidity":61,"temp_min":279.15,"temp_max":281.15},
+	"visibility":12874,
+	"wind":{"speed":8.2,"deg":340,"gust":11.3},
+	"clouds":{"all":1},
+	"dt":1519061700,
+	"sys":{"type":1,"id":392,"message":0.0027,"country":"US","sunrise":1519051894,"sunset":1519091585},
+	"id":0,
+	"name":"Mountain View",
+	"cod":200
+}\end{lstlisting}
+\end{varwidth}\end{center}
+
+Grâce au module \textcolor{red}{requests}, Python peut récupérer les données au format \textbf{json} et les intégrer dans un dictionnaire.\\
+
+Voici un programme basique permettant de récupérer et afficher quelques informations:
+
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=iPython,linewidth = 15cm]
+import requests
+
+API_KEY = "439d4b804bc8187953eb36d2a8c26a02"
+
+def get_weather(api_key, location):
+url = f"https://samples.openweathermap.org/data/2.5/weather?zip={location}&appid={api_key}"
+r = requests.get(url)
+return r.json()\end{lstlisting}
+\end{varwidth}\end{center}
+
+la fonction \textcolor{red}{get\_weather} va renvoyer directement un dictionnaire : 
+
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=iPython,linewidth = 15cm]
+>>> weather = get_weather(API_KEY, "14000, fr")
+>>> print(weather)
+
+{'coord': {'lon': -122.09, 'lat': 37.39},
+	'weather': [{'id': 500,
+		'main': 'Rain',
+		'description': 'light rain',
+		'icon': '10d'}],
+	'base': 'stations',
+	'main': {'temp': 280.44,
+		'pressure': 1017,
+		'humidity': 61,
+		'temp_min': 279.15,
+		'temp_max': 281.15},
+	'visibility': 12874,
+	'wind': {'speed': 8.2, 'deg': 340, 'gust': 11.3},
+	'clouds': {'all': 1},
+	'dt': 1519061700,
+	'sys': {'type': 1,
+		'id': 392,
+		'message': 0.0027,
+		'country': 'US',
+		'sunrise': 1519051894,
+		'sunset': 1519091585},
+	'id': 0,
+	'name': 'Mountain View',
+	'cod': 200}\end{lstlisting}
+\end{varwidth}\end{center}
+
+Récupérer la température se fait alors via 
+
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=iPython,linewidth = 15cm]
+>>> print(weather['main']['temp'])\end{lstlisting}
+\end{varwidth}\end{center}
+
+En effet, notre dictionnaire sous la clé '\textcolor{red}{'main'} renvoie un nouveau dictionnaire
+
+
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=iPython,linewidth = 15cm]
+{'temp': 280.44,
+	'pressure': 1017,
+	'humidity': 61,
+	'temp_min': 279.15,
+	'temp_max': 281.15}\end{lstlisting}
+\end{varwidth}\end{center}
+qui à son tour renvoie la température via sa clé \textcolor{red}{'temp'}.
+
+\subsection{Exercice}
+\begin{enumerate}
+	\item Récupérer de l'exemple précédent la direction du vent (en degrés).
+	\item En utilisant \textit{Hourly Forecast 4days} (https://openweathermap.org/api/hourly-forecast), afficher les prévisions météo pour les 4 prochains jours.
+\end{enumerate}
+
+
+\section{Créer un module en python}
+Vous l'avez vu, le travail sur les API a été grandement facilité par l'utilisation du module \textcolor{red}{requests} qui fait en réalité tout le travail pour nous. Grâce à ce module, notre programme est très concis et lisible. De plus, nous pouvons exploiter ce même module \textcolor{red}{requests} dans plusieurs programmes sans avoir à le redévelopper.\\
+
+Nous allons voir maintenant comment créer nos propres modules en python afin d'enrichir le langage de nouvelles fonctions et objets réutilisables facilement.
+
+\subsection{Principe Général}
+
+Un module est un ensemble de fonctions suffisamment générales pour être réutilisables dans plusieurs projets. Pour plus de clarté, on ne regroupera dans un même module que les fonctions relatives à une même fonctionnalité.\\
+
+Un module s'\textbf{importe} par son nom qui est le nom du fichier python privé de l'extension .py.\\
+
+Par exemple, le module random regroupe des fonctions en lien avec l'aléatoire (\textcolor{red}{randint}, \textcolor{red}{choice}, \textcolor{red}{shuffle}, ...)\\
+
+Un module étant \textit{une boîte noire} - on a pas en général le code des fonctions sous les yeux - , celui-ci doit exposer de manière claire au développeur son \textit{interface}, c'est à dire
+\begin{itemize}
+	\item la liste des fonctions et leur rôle
+	\item ce que chaque fonction prend en entrée
+	\item ce que chaque fonction renvoie en résultat
+\end{itemize}
+
+Ces fonctions sont stockées dans un fichier \textcolor{red}{random.py} quelque-part sur le système de fichiers de votre ordinateur.\\
+
+Pour cela, un formalisme particulier existe sous python - les \textit{docstrings} - qui permet de décrire précisément ces informations. Ainsi, un développeur pourra accéder à l'interface du module pour savoir comment utiliser chacune des fonctions.
+
+\subsection{Exemple}
+
+Tapez ce code dans une console python : 
+
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=iPython,linewidth = 15cm]
+>>> from random import randint
+>>> help(randint)\end{lstlisting}
+\end{varwidth}\end{center}
+
+Vous constaterez l'affichage de ce texte explicatif. Cela est rendu possible par l'utilisation de \textit{docstrings} à l'intérieur de la fonction \textcolor{red}{randint}.
+
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=iPython,linewidth = 15cm]
+Help on method randint in module random:
+
+randint(a, b) method of random.Random instance
+Return random integer in range [a, b], including both end points.\end{lstlisting}
+\end{varwidth}\end{center}
+
+Si vous tapez \textcolor{red}{help(random)} vous aurez une description générale des fonctions disponibles dans le module.\\
+
+Il est intéressant de regarder les sources d'un module officiel de python pour voir comment sont implémentées toutes ces docstrings : https://github.com/python/cpython/blob/master/Lib/random.py \\
+On retiendra : 
+\begin{itemize}
+	\item Une \textit{docstring} est une chaîne de caractère délimitée par doubles quotes
+	\item un module commence par une \textit{docstring} de présentation générale
+	\item chaque fonction commence par une \textit{docstring} présentant le rôle et le fonctionnement de celle-ci.
+\end{itemize}
+
+Voici l'implémentation de la fonction \textcolor{red}{randint} dans le module \textcolor{red}{random} qui montre d'où provient le texte d'aide affiché par la fonction \textcolor{red}{help()}.
+
+
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=iPython,linewidth = 15cm]
+def randint(self, a, b):
+	"""Return random integer in range [a, b], including both end points.
+	"""
+
+	return self.randrange(a, b+1)\end{lstlisting}
+\end{varwidth}\end{center}
+
+
+Pour en savoir plus sur les docstrings, vous pouvez vous référer au guide de préconisations python PEP-257 : https://www.python.org/dev/peps/pep-0257/
+
+
+\subsection{Importer un Module}
+
+Vous êtes confrontés à l'import de modules depuis la première ligne de python que vous avez rencontré pratiquement. En effet, si vous voulez utiliser des fonctions aléatoires ou mathématiques de base, vous êtes obligé d'importer le module \textcolor{red}{random} ou \textcolor{red}{maths}.
+
+\begin{remark}
+	\textbf{ATTENTION ATTENTION : N'importez JAMAIS un module par la commande} \textcolor{red}{from module import *}
+\end{remark}
+
+
+et pourtant, c'est la première ligne que l'on trouve lorsque l'on programme en python sur calculatrice. C'est \textbf{une très mauvaise pratique} menant à des bugs difficiles à déceler. En effet, cela importe toutes les fonctions du module sans distinction, avec le risque d'écraser d'autres fonctions de même nom dans d'autres modules. \\
+
+Vous trouverez beaucoup de code python sur internet important les modules ainsi. C'est mal, ne le faîtes pas ! \\
+
+Il y a deux moyens d'importer proprement des modules :
+
+\subsubsection{from module import fonction\_1 fonction\_2, ...}
+
+Avec cette syntaxe, on indique explicitement les fonctions que l'on souhaite utiliser. C'est très clair pour le lecteur et le développeur. Il n'y a pas de risques de confusion ou de conflits de noms car on voit les fonctions que l'on importe. \\
+
+Pour utiliser les fonctions, il suffit de les invoquer simplement par leur nom : \textcolor{red}{fonction1(arguments)}.
+
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=iPython,linewidth = 15cm]
+from random import randint
+a = randint(1,100)\end{lstlisting}
+\end{varwidth}\end{center} 
+
+\subsubsection{import module}
+
+Cette syntaxe concise à l'import est aussi sans ambiguïté. Par contre, elle va imposer que chaque appel de fonction soit précédé du module en préfixe. \\
+
+Pour utiliser les fonctions, on les invoquera en faisant: \textcolor{red}{module.fonction1(arguments)}.
+
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=iPython,linewidth = 15cm]
+import random
+a = random.randint(1,100)\end{lstlisting}
+\end{varwidth}\end{center}
+
+Il est possible en cas de nom de module trop compliqué de lui donner un \textit{alias} plus cours par commodité :
+
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=iPython,linewidth = 15cm]
+import random as rd
+a = rd.randint(1,100)\end{lstlisting}
+\end{varwidth}\end{center} 
+
+\subsection{Exercices}
+
+Écrire un module \textcolor{red}{aires} permettant de calculer les aires de figures géométriques usuelles :\begin{itemize}
+	\item triangle
+	\item disque
+	\item carré
+	\item rectangle
+	\item parallélogramme
+	\item losange
+\end{itemize}
+
+Vous veillerez à respecter les consignes suivantes :
+\begin{itemize}
+	\item à chaque figure correspondra une fonction du même nom
+	\item vous déciderez des paramètres pertinents à communiquer à chaque fonction pour le calcul de l'aire
+	\item le module et chaque fonction seront correctement documentées afin qu'un développeur ne connaissant pas votre module puisse l'utiliser facilement grâce à la fonction \textcolor{red}{help}.
+\end{itemize}
+
+Vous écrirez ensuite un petit programme afin de tester le fonctionnement de ce module.
+
+\end{document}

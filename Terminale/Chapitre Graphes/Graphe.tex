@@ -1,0 +1,378 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[12pt,fleqn]{article} % Default font size, left-justified equations, chapters start on any page
+
+%----------------------------------------------------------------------------------------
+\input{structure}
+\input{structureSG} % Insert the commands.tex file which contains the majority of the structure behind the template
+
+
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+
+\title{TP Guidé : Les Graphes}
+\maketitle
+
+\section{Définitions et Premières Propriétés}
+
+\begin{definition}
+	Un graphe $G$ est la donnée d'un ensemble de nœuds noté $V$ et d'un ensemble d'arêtes reliant ces nœuds noté $E$. On écrit $G = (V,E)$
+\end{definition}
+
+\begin{remark}
+	Les notations $V$ et $E$ viennent de l'anglais. $V$ signifie Vertex qui veut dire Sommet. $E$ signifie Edge qui veut dire arête.
+\end{remark}
+
+\begin{example}\label{Exemple Graphe Dessin}
+	Le graphe $G = (V,E)$ avec $V = \lbrace A,B,C,D \rbrace$ et $E = \lbrace [A,B],[A,C],[A,D],[D,C] \rbrace$ ressemble à la figure suivante.
+	\begin{center}
+		\begin{tikzpicture}[bend angle=20]
+			\tikzstyle{db}=[circle, draw , inner sep=0pt, minimum width=6pt]
+			\tikzstyle{fleche}=[draw, thick, -,=latex]
+			\node[db](A) at (0,0){} node[below]{$A$};
+			\node[db](B) at (1.5,1.2){};
+			\node[db](C) at (0,1.5){}; \node [db](D) at (-1,1){};
+			\draw [-,=latex, thick](A) to [bend right] (B) ;
+			\draw[-,=latex, thick](A) to [bend left] (D) ;
+			\draw[-,=latex, thick] (C)--(A);
+			\draw[-,=latex, thick] (D) to [bend left=60](C);
+			\draw(1.5,1.2)node[right]{$B$};
+			\draw(0,1.5)node[above]{$C$} ;
+			\draw(-1,1)node[left]{$D$}
+		\end{tikzpicture}
+	\end{center}
+\end{example}
+
+\begin{exercise}
+	\begin{enumerate}
+		\item Faire une classe Noeud avec pour attribut Nom.
+		\item Faire une classe Arête avec pour attributs Noeud1 et Noeud2
+		\item Faire une classe Graphe avec pour attributs : une liste comportant des objets de type Noeud et une liste comportant des objets de type arête.
+		\item Construire 2 exemples : $G = ([1,2,3],([1,2],[1,3]))$ et \\${GG = ((["A","B","C"]),(["A","C"],["B","C"]))}$
+	\end{enumerate}
+\end{exercise}
+
+
+Il existe un outil mathématique utile pour manipuler ces graphes (et réaliser des modèles). Cet outil est la matrice d'adjacence. Il permet en un seul tableau de nombre de se faire une représentation du graphe (une matrice est un tableau de nombre).
+\begin{definition}
+	Soit $G = (V,E)$ un graphe, on peut construire une matrice telle que les entrées de la matrice sont les noeuds et à la case $(i,j)$ on met \begin{itemize}
+		\item 1 si il y a une arête entre $i$ et $j$
+		\item 0 sinon
+	\end{itemize}
+\end{definition}
+
+\begin{remark}
+	Dans certains cas, on définit la matrice d'adjacence en mettant à la case $(i,j)$ le nombre d'arêtes reliant $i$ et $j$.	
+\end{remark}
+
+\begin{example}
+	Dans le graphe \ref{Exemple Graphe Dessin}, la matrice d'adjacence est : \[
+	\begin{array}{rc}
+		& A\ B\ C\ D \\
+		\begin{array}{c}
+			A \\ B \\ C \\D
+		\end{array} & \left(\begin{array}{cccc}
+		0 & 1 & 1 & 1\\
+		1 & 0 & 0 & 0 \\
+		1 & 0 & 0 & 1 \\
+		1 & 0 & 1 & 0
+	\end{array}\right)
+	\end{array}
+	\]
+\end{example}
+
+\begin{exercise}
+	\begin{enumerate}
+		\item Ajouter à votre classe Graphe un attribut adjacence et faîtes une méthode qui calcule la matrice d'adjacence d'un graphe.
+		\item Donner sur feuille 4 exemples de Graphes. Donner sur feuille leur matrice d'adjacence respective. Vérifier que ces matrices sont bien symétriques par rapport à la diagonale descendante.
+		\item Faite 4 objets Graphes correspondants aux 4 graphes que vous avez pris en exemple. Utilisez la méthode pour calculer leur matrice d'adjacence. Vérifiez.
+	\end{enumerate}
+\end{exercise}
+
+\section{Graphes Orientés}
+\begin{definition}
+	Un graphe orienté est la donnée de : \begin{itemize}
+		\item un ensemble de noeuds noté $V$
+		\item un ensemble d'arêtes dirigées (une arête ne relie pas $A$ ET $B$ mais elle relie $A$ vers $B$ (et pas forcément le contraire)) noté $E$.
+	\end{itemize}
+\end{definition}
+
+\begin{example}\label{Exemple Graphe Dirigé}
+	Le graphe $G = \left((A,B,C,D), (A \to B, A \to D, D \to C, C \to D, C \to B, D \to B) \right)$ est représenté par : 
+\begin{center}
+		\begin{tikzpicture}[bend angle=20]
+		\tikzstyle{db}=[circle, draw , inner sep=0pt, minimum width=6pt]
+		\tikzstyle{fleche}=[draw, thick, ->,>=latex]
+		\node[db](A) at (0,0){} node[below]{$A$};
+		\node[db](B) at (1.5,1.2){};
+		\node[db](C) at (0,1.5){}; \node [db](D) at (-1,1){};
+		\draw [->,>=latex, thick](A) to [bend right] (B) ;
+		\draw[->,>=latex, thick](A) to [bend left] (D) ;
+		\draw[->,>=latex, thick] (C)--(A);
+		\draw[->,>=latex, thick] (D) to [bend right] (B);
+		\draw[->,>=latex, thick] (C) to [bend left ] (B);
+		\draw[->,>=latex, thick] (C) to [bend left ] (D);
+		\draw[->,>=latex, thick] (D) to [bend left=60](C);
+		\draw(1.5,1.2)node[right]{$B$};
+		\draw(0,1.5)node[above]{$C$} ;
+		\draw(-1,1)node[left]{$D$} ;
+	\end{tikzpicture}
+\end{center}
+\end{example}
+\begin{definition}
+La matrice d'adjacence d'un graphe orienté $G = (V,E)$ est telle que les entrées de la matrice sont les noeuds et à la case $(i,j)$ on met \begin{itemize}
+	\item 1 si il y a une arête de $i$ vers $j$
+	\item 0 sinon
+\end{itemize}
+\end{definition}
+
+\begin{example}
+	La matrice d'adjacence du graphe $G$ de l'exemple \ref{Exemple Graphe Dirigé} est la suivante.
+	\[
+	\begin{array}{rc}
+		& A\ \ B\ \ C\ \ D \ \ \\
+		\begin{array}{c}
+			A \\ B \\ C \\D
+		\end{array} & \left(\begin{array}{cccc}
+			0 & 1 & 0 & 1\\
+			0 & 0 & 0 & 0 \\
+			1 & 1 & 0 & 1 \\
+			0 & 1 & 1 & 0
+		\end{array}\right)
+	\end{array}
+	\]
+\end{example}
+
+\begin{proposition}
+	La matrice d'adjacence d'un graphe non orienté est symétrique (par rapport à la première diagonale). Celle d'un graphe orienté ne l'est pas nécessairement.
+\end{proposition}
+
+\begin{remark}
+	Un graphe non orienté est un cas particulier de graphe orienté. Dans la suite, on ne considèrera que des graphes orientés.
+\end{remark}
+
+\begin{exercise}
+	Adapter la classe graphe pour qu'elle puisse convenir à des graphes orienté et non orienté. Ajouter un attribut booléen orientation qui vaut \textit{True} si le graphe est orienté et \textit{False} si le graphe est non orienté.
+\end{exercise}
+
+\section{Voisins et Chemins}
+
+\begin{definition}
+	Soit $G = (V,E)$ un graphe, soit $x\in V$ un noeud. Les voisins de $x$ sont les noeuds qui sont liés à $x$ par une arête (de $x$ vers le voisin).
+\end{definition}
+
+\begin{example}
+	Dans l'exemple \ref{Exemple Graphe Dirigé}, les voisins de $A$ sont $B$ et $D$. $C$ n'est pas un voisin de $A$ car il n'y a pas d'arête qui va de $A$ vers $C$.
+\end{example}
+
+\begin{exercise}
+	Ajouter à la classe Noeud un attribut liste : voisins. Ajouter une méthode FaireVoisin à graphe qui va mettre à jour les attributs voisins de tous les noeuds du graphe.
+\end{exercise}
+
+\begin{definition}
+	Soit $G = (V,E)$ un graphe. Un chemin de $G$ reliant le noeud $x \in V$ à $y\in V$ est l'ensemble des noeuds reliés par une arête menant de $x$ à $y$. 
+\end{definition}
+
+\begin{example}
+	Dans l'exemple \ref{Exemple Graphe Dirigé}, il y a trois chemins de $C$ à $B$ : le chemin $[C,D,B], [C,A,B], [C,B]$. 
+\end{example}
+
+
+\section{Modèle de Watts : Graphes Small World}
+
+\begin{remark}
+	Un graphe Small World est un graphe qui apparaît naturellement dans les réseaux sociaux (qu'ils soient numériques ou non). Nous allons apprendre à en générer un.
+\end{remark}
+
+
+\begin{exercise}\label{Graphe Small World}
+	Soit $n$ un entier fixé (vous prendrez $n = 20$) et $p \in ]0,1[$ (on prendra $p=0.3$)
+	\begin{enumerate}
+		\item Générer un graphe avec $n$ noeuds et une arête reliant chaque paire de noeud.
+		\item Compter le nombre d'arêtes puis supprimer chaque arête avec une probabilité de $p$.
+		\item À l'aide des librairies networkx (comme nx dans la suite) et matplotlib.pypplot (comme plt dans la suite), représenter le graphe que vous venez d'obtenir. 
+	\end{enumerate}
+\end{exercise}
+
+\begin{remark}
+	\begin{itemize}
+		\item Pour créer un graphe on fait :
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=iPython,linewidth = 12cm]
+G = nx.Graph() \end{lstlisting}
+\end{varwidth}\end{center}
+		\item Pour ajouter des noeuds et des arêtes on fait respectivement : 
+		\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+	\begin{lstlisting}[language=iPython,linewidth = 12cm]
+G.add_nodes_from(Liste_De_Noeuds)
+G.add_edges_from(Liste_d'ar\^etes) \end{lstlisting}
+\end{varwidth}\end{center}
+\item Pour tracer et voir le graphe on fait :
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+	\begin{lstlisting}[language=iPython,linewidth = 12cm]
+nx.draw(G)
+plt.show() \end{lstlisting}
+\end{varwidth}\end{center}
+\item Vous trouverez d'autres commandes pour dessiner les graphes dans la documentation de Networkx.
+\item Les noeuds ne sont pas nécessairement des chaînes de caractères, ils peuvent être n'importe quoi, même des  objets.
+	\end{itemize}
+\end{remark}
+
+
+
+\section{Parcours sur les Graphes}
+
+Dans cette section, on va voir deux algorithmes de parcours : le parcours en profondeur et le parcours en largeur.
+
+\subsection{Parcours en profondeur}
+
+\begin{remark}\footnote{Source : Wikipedia}
+	 L'exploration d'un parcours en profondeur depuis un sommet S fonctionne comme suit. Il poursuit alors un chemin dans le graphe jusqu'à un cul-de-sac ou alors jusqu'à atteindre un sommet déjà visité. Il revient alors sur le dernier sommet où on pouvait suivre un autre chemin puis explore un autre chemin (voir vidéo ci-contre). L'exploration s'arrête quand tous les sommets depuis S ont été visités. Bref, l'exploration progresse à partir d'un sommet S en s'appelant récursivement pour chaque sommet voisin de S.
+\end{remark}
+
+Le pseudo code est le suivant : 
+
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=Pseudo,linewidth = 14cm]
+Fonction parcours_en_profondeur(Graphe G, Sommet S):
+	Marquer S comme visité
+	Pour tous les voisins v de S FAIRE:
+		Si v n'est pas visité ALORS : 
+			parcours_en_profondeur(G,v)
+\end{lstlisting}
+\end{varwidth}
+\end{center}
+
+\begin{exercise}
+	\begin{enumerate}
+		\item Implémenter le parcours en profondeur en python.
+		\item Proposer une procédure de Test de l'algorithme
+		\item Le tester sur le graphe Small World de l'exercice \ref{Graphe Small World}.
+	\end{enumerate} 
+\end{exercise}
+
+\begin{remark}
+	Si l'on veut faire des opérations sur les noeuds du graphes suivant cet algorithme. Les opérations se font durant la phase de marquage.
+\end{remark}
+
+\subsection{Parcours en Largeur}
+
+\begin{remark}\footnote{Source : Wikipedia}
+	L'algorithme de parcours en largeur (ou BFS, pour Breadth First Search en anglais) permet le parcours d'un graphe ou d'un arbre de la manière suivante : on commence par explorer un nœud source, puis ses successeurs, puis les successeurs non explorés des successeurs, etc. L'algorithme de parcours en largeur permet de calculer les distances de tous les nœuds depuis un nœud source dans un graphe non pondéré (orienté ou non orienté).
+\end{remark}
+
+Le pseudo-code est le suivant : 
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=Pseudo,linewidth = 12.5cm]
+Fonction parcours_en_largeur(Graphe G, Sommet S):
+	f = creer_file()
+	f.enfiler(S)
+	Marquer S
+	Tant que f est non vide FAIRE : 
+		s = défiler(f)
+		afficher(s)
+		pour tout voisin v de s FAIRE:
+			Si v est non marqué:
+				f.enfiler(v)
+				marquer v
+		\end{lstlisting}
+	\end{varwidth}
+\end{center}
+\begin{remark}
+	Si l'on veut faire des opérations sur les noeuds du graphes suivant cet algorithme. Les opérations se font durant la phase d'affichage.
+\end{remark}
+
+\begin{exercise}
+	\begin{enumerate}
+		\item Implémenter le parcours en largeur en python.
+		\item Proposer une procédure de Test de l'algorithme
+		\item Le tester sur le graphe Small World de l'exercice \ref{Graphe Small World}.
+	\end{enumerate} 
+\end{exercise}
+
+\section{Détection de Cycle}
+\begin{definition}
+	Un cycle est un chemin dont les deux extrémités sont identiques.
+\end{definition}
+
+\begin{remark}
+	Pour détecter un cycle, nous allons réaliser un parcours en profondeur et vérifier qu'aucune ar\^ete ne va vers un noeud déjà visité.
+\end{remark}
+
+Le pseudo code est le suivant : 
+
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=Pseudo,linewidth = 12.5cm]
+Fonction recherche_cycle(Graphe G, Sommet S):
+	Marquer S comme visité
+	Pour tous les voisins v de S FAIRE:
+		Si v n'est pas visité ALORS:
+			recherche_cycle(G,v)
+		SINON:
+			renvoyer Vrai
+	renvoyer Faux
+		\end{lstlisting}
+	\end{varwidth}
+\end{center}
+
+\begin{exercise}
+	\begin{enumerate}
+		\item Implémenter la détection de cycle en python.
+		\item Proposer une procédure de Test de l'algorithme
+		\item Le tester sur le graphe Small World de l'exercice \ref{Graphe Small World}.
+	\end{enumerate} 
+\end{exercise}
+
+
+\section{Recherche d'un chemin}
+
+La recherche d'un chemin est très important dans la pratique. Un exemple récent d'utilisation de ces algorithmes serait la recherche d'un patient 0, ou la recherche du plus court chemin pour un trajet. On ne s'intéressera pas dans la suite à la recherche du plus court chemin.
+
+\begin{remark}
+	Pour cet algorithme, on va légèrement modifier l'algorithme de parcours en Largeur
+\end{remark}
+
+Le pseudo code est le suivant : 
+
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=Pseudo,linewidth = 12.5cm]
+Fonction recherche_de_chemin(Graphe G, Sommet de Départ S, Sommet d'arrivée D):
+	f = creer_file()
+	f.enfiler(S)
+	marquer S
+	Tant que f est non vide FAIRE : 
+		s = défiler(f)
+		pour tout voisin v de s FAIRE:
+			Si v == D ALORS:
+				return VRAI
+			Si v est non marqué ALORS:
+				f.enfiler(v)
+				marquer v
+	return FAUX
+		\end{lstlisting}
+	\end{varwidth}
+\end{center}
+
+
+
+\begin{exercise}
+	\begin{enumerate}
+		\item Implémenter la recherche de chemin en python.
+		\item Proposer une procédure de Test de l'algorithme
+		\item Le tester sur le graphe Small World de l'exercice \ref{Graphe Small World}.
+	\end{enumerate} 
+\end{exercise}
+
+\end{document}

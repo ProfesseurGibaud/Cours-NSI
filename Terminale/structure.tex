@@ -1,0 +1,853 @@
+%----------------------------------------------------------------------------------------
+%	VARIOUS REQUIRED PACKAGES AND CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\usepackage[top=3cm,bottom=3cm,left=3cm,right=3cm,headsep=1cm,a4paper]{geometry} % Page margins
+\usepackage{graphicx} % Required for including pictures
+\graphicspath{{Pictures/}} % Specifies the directory where pictures are stored
+
+\usepackage{wrapfig}
+\usepackage{tabularx}
+\usepackage{cellspace}
+\usepackage{setspace}
+%{\renewcommand{\arraystretch}{2.3}
+%\setstretch{2.3}
+\usepackage{lipsum} % Inserts dummy text
+
+
+\usepackage[french]{babel} % French language/hyphenation
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{enumitem} % Customize lists
+\setlist{nolistsep} % Reduce spacing between bullet points and numbered lists
+
+\usepackage{booktabs} % Required for nicer horizontal rules in tables
+
+\usepackage{textcomp} % For straight single quotes
+
+\usepackage{caption} % For caption*
+
+\usepackage{xcolor} % Required for specifying colors by name
+\definecolor{olive}{HTML}{B70E0B} % Define the orange color used for highlighting throughout the book
+\definecolor{teal}{HTML}{165479}
+
+\usepackage[hyperfootnotes=false]{hyperref} % For hyperlinks
+\hypersetup{
+	colorlinks,
+	linkcolor={olive},
+	urlcolor={teal}
+}
+
+%----------------------------------------------------------------------------------------
+%	TIKZs
+%----------------------------------------------------------------------------------------
+
+\usepackage{tikz,pgfplots,tkz-tab,tkz-fct}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{tikzmark}
+\usepackage{tkz-euclide}
+
+
+\usetikzlibrary{matrix,arrows,decorations.pathmorphing}
+\usetikzlibrary{shapes,snakes}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+\usetikzlibrary{patterns}
+\usetikzlibrary{arrows}
+\usetikzlibrary{intersections,through,backgrounds}
+\usetikzlibrary{trees}
+
+
+\usepgfplotslibrary{fillbetween}
+
+\pgfdeclarelayer{bg}
+\pgfsetlayers{bg,main}
+
+\tikzset{
+	hatch distance/.store in=\hatchdistance,
+	hatch distance=20pt,
+	hatch thickness/.store in=\hatchthickness,
+	hatch thickness=0.3pt
+}
+
+\makeatletter
+\pgfdeclarepatternformonly[\hatchdistance,\hatchthickness]{northeast}
+{\pgfqpoint{0pt}{0pt}}
+{\pgfqpoint{\hatchdistance}{\hatchdistance}}
+{\pgfpoint{\hatchdistance-1pt}{\hatchdistance-1pt}}%
+{
+	\pgfsetlinewidth{\hatchthickness}
+	\pgfpathmoveto{\pgfqpoint{0pt}{0pt}}
+	\pgfpathlineto{\pgfqpoint{\hatchdistance}{\hatchdistance}}
+	\pgfusepath{stroke}
+}
+
+\pgfdeclarepatternformonly[\hatchdistance,\hatchthickness]{northwest}
+{\pgfqpoint{0pt}{0pt}}
+{\pgfqpoint{\hatchdistance}{\hatchdistance}}
+{\pgfpoint{\hatchdistance-1pt}{\hatchdistance-1pt}}%
+{
+	\pgfsetlinewidth{\hatchthickness}
+	\pgfpathmoveto{\pgfqpoint{\hatchdistance}{0pt}}
+	\pgfpathlineto{\pgfqpoint{0pt}{\hatchdistance}}
+	\pgfusepath{stroke}
+}
+
+\pgfdeclarepatternformonly[\hatchdistance,\hatchthickness]{horizontal}
+{\pgfqpoint{0pt}{0pt}}
+{\pgfqpoint{\hatchdistance}{\hatchdistance}}
+{\pgfpoint{\hatchdistance-1pt}{\hatchdistance-1pt}}%
+{
+	\pgfsetcolor{\tikz@pattern@color}
+	\pgfsetlinewidth{\hatchthickness}
+	\pgfpathmoveto{\pgfqpoint{0pt}{0pt}}
+	\pgfpathlineto{\pgfqpoint{\hatchdistance}{0pt}}
+	\pgfusepath{stroke}
+}
+
+\pgfdeclarepatternformonly[\hatchdistance,\hatchthickness]{vertical}
+{\pgfqpoint{0pt}{0pt}}
+{\pgfqpoint{\hatchdistance}{\hatchdistance}}
+{\pgfpoint{\hatchdistance-1pt}{\hatchdistance-1pt}}%
+{
+	\pgfsetcolor{\tikz@pattern@color}
+	\pgfsetlinewidth{\hatchthickness}
+	\pgfpathmoveto{\pgfqpoint{0pt}{0pt}}
+	\pgfpathlineto{\pgfqpoint{0pt}{\hatchdistance}}
+	\pgfusepath{stroke}
+}
+\makeatother
+
+
+%----------------------------------------------------------------------------------------
+%	Tabular
+%----------------------------------------------------------------------------------------
+
+
+\usepackage{multirow}
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{N}{@{}m{0pt}@{}}
+
+\usepackage{diagbox} % For 2 way tables
+
+\newcommand{\bi}[1]{\textbf{\textit{#1}}}
+
+
+%----------------------------------------------------------------------------------------
+%	THEOREM STYLES
+%----------------------------------------------------------------------------------------
+
+\usepackage{amsmath,amsfonts,amssymb,amsthm} % For math equations, theorems, symbols, etc
+
+
+% Boxed/framed environments
+\newtheoremstyle{olivenumbox}% % Theorem style name
+{0pt}% Space above
+{0pt}% Space below
+{\normalfont}% % Body font
+{}% Indent amount
+{\small\bf\sffamily\color{olive}}% % Theorem head font
+{}% Punctuation after theorem head
+{0.25em}% Space after theorem head
+{\small\sffamily\color{olive}~{#1}~{#2}.}% Theorem text (e.g. Theorem 2.1)
+
+% Non-boxed/non-framed environments
+\newtheoremstyle{olivenum}% % Theorem style name
+{5pt}% Space above
+{5pt}% Space below
+{\normalfont}% % Body font
+{}% Indent amount
+{\small\bf\sffamily\color{olive}}% % Theorem head font
+{}% Punctuation after theorem head
+{0.25em}% Space after theorem head
+{\small\sffamily\color{olive}~{#1}~{#2}.}% Theorem text (e.g. Theorem 2.1)
+
+% Blue, no space
+\newtheoremstyle{tealnum}% % Theorem style name
+{0pt}% Space above
+{0pt}% Space below
+{\normalfont}% % Body font
+{}% Indent amount
+{\small\bf\sffamily\color{teal}}% % Theorem head font
+{}% Punctuation after theorem head
+{0.25em}% Space after theorem head
+{\small\sffamily\color{teal}~{#1}~{#2}.}% Theorem text (e.g. Theorem 2.1)
+
+\renewcommand{\qedsymbol}{$\blacksquare$}% Optional qed square
+\makeatother
+
+\newtheoremstyle{blacknumex}% Theorem style name
+{5pt}% Space above
+{5pt}% Space below
+{\normalfont}% Body font
+{} % Indent amount
+{\small\bf\sffamily}% Theorem head font
+{}% Punctuation after theorem head
+{0.25em}% Space after theorem head
+{\small\sffamily{\tiny\ensuremath{\blacksquare}}~{#1}~{#2}.}% Theorem text (e.g. Theorem 2.1)}
+
+\newtheoremstyle{blacknumbox} % Theorem style name
+{0pt}% Space above
+{0pt}% Space below
+{\normalfont}% Body font
+{}% Indent amount
+{\small\bf\sffamily}% Theorem head font
+{}% Punctuation after theorem head
+{0.25em}% Space after theorem head
+{\small\sffamily~{#1}~{#2}.}% Theorem text (e.g. Theorem 2.1)
+
+
+% Defines the theorem text style for each type of theorem to one of the three styles above
+%\newcounter{dummy} 
+%\numberwithin{dummy}{chapter}
+
+\theoremstyle{olivenumbox}
+\newtheorem{theoremeT}{Théorème}[chapter]
+\newtheorem{problem}{Problem}[chapter]
+\newtheorem{definitionT}{Définition}[chapter]
+\newtheorem{lemmeT}{Lemme}[chapter]
+
+\theoremstyle{blacknumex}
+\newtheorem{exampleT}{Exemple}[chapter]
+\newtheorem{exerciseT}{Exercice}[chapter]
+\newtheorem{correctionT}{Correction}[chapter]
+
+\theoremstyle{blacknumbox}
+\newtheorem{vocabulary}{Vocabulaire}[chapter]
+\newtheorem{corollaryT}{Corollaire}[chapter]
+
+
+\theoremstyle{tealnum}
+\newtheorem{propositionT}{Propriété}[chapter]
+
+%----------------------------------------------------------------------------------------
+%	DEFINITION OF COLORED BOXES
+%----------------------------------------------------------------------------------------
+
+\RequirePackage[framemethod=default]{mdframed} % Required for creating the theorem, definition, exercise and corollary boxes
+
+% Theorem box
+\newmdenv[skipabove=7pt,
+skipbelow=7pt,
+backgroundcolor=red!5,
+linecolor=olive,
+innerleftmargin=5pt,
+innerrightmargin=5pt,
+innertopmargin=5pt,
+leftmargin=0cm,
+rightmargin=0cm,
+innerbottommargin=5pt]{tBox}
+
+% Exercise box	  
+\newmdenv[skipabove=7pt,
+skipbelow=7pt,
+rightline=false,
+leftline=true,
+topline=false,
+bottomline=true,
+backgroundcolor=blue!5,
+linecolor=olive,
+innerleftmargin=5pt,
+innerrightmargin=5pt,
+innertopmargin=5pt,
+innerbottommargin=5pt,
+leftmargin=0cm,
+rightmargin=0cm,
+linewidth=2pt]{eBox}	
+
+% Definition box
+\newmdenv[skipabove=7pt,
+skipbelow=7pt,
+rightline=false,
+leftline=true,
+topline=false,
+bottomline=true,
+linecolor=olive,
+backgroundcolor=green!5,
+innerleftmargin=5pt,
+innerrightmargin=5pt,
+innertopmargin=0pt,
+leftmargin=0cm,
+rightmargin=0cm,
+linewidth=2pt,
+innerbottommargin=2pt]{dBox}	
+
+% Corollary box
+\newmdenv[skipabove=7pt,
+skipbelow=7pt,
+rightline=false,
+leftline=true,
+topline=false,
+bottomline=true,
+linecolor=gray,
+backgroundcolor=yellow!5,
+innerleftmargin=5pt,
+innerrightmargin=5pt,
+innertopmargin=5pt,
+leftmargin=0cm,
+rightmargin=0cm,
+linewidth=2pt,
+innerbottommargin=5pt]{cBox}
+
+% Proposition box
+\newmdenv[skipabove=7pt,
+skipbelow=7pt,
+rightline=false,
+leftline=true,
+topline=false,
+bottomline=true,
+linecolor=black,
+backgroundcolor=yellow!5,
+innerleftmargin=5pt,
+innerrightmargin=5pt,
+innertopmargin=5pt,
+leftmargin=0cm,
+rightmargin=0cm,
+linewidth=2pt,
+innerbottommargin=5pt]{pBox}
+
+% Creates an environment for each type of theorem and assigns it a theorem text style from the "Theorem Styles" section above and a colored box from above
+\newenvironment{theorem}{\begin{tBox}\begin{theoremeT}\text{ }\\}{\end{theoremeT}\end{tBox}}
+\newenvironment{exercise}{\begin{eBox}\begin{exerciseT}\text{ }\\}{\hfill{\color{olive}\tiny\ensuremath{\blacksquare}}\end{exerciseT}\end{eBox}}
+\newenvironment{definition}{\begin{dBox}\begin{definitionT}\text{ }\\}{\end{definitionT}\end{dBox}}	
+\newenvironment{example}{\begin{exampleT}\text{ }\\}{\hfill{\tiny\ensuremath{\blacksquare}}\end{exampleT}}	
+\newenvironment{correction}{\begin{correctionT}\text{ }\\}{\hfill{\tiny\ensuremath{\blacksquare}}\end{correctionT}}	
+\newenvironment{corollary}{\begin{cBox}\begin{corollaryT}\text{ }\\}{\end{corollaryT}\end{cBox}}	
+\newenvironment{proposition}{\begin{pBox}\begin{propositionT}\text{ }\\}{\end{propositionT}\end{pBox}}
+\newenvironment{lemme}{\begin{pBox}\begin{lemmeT}\text{ }\\}{\end{lemmeT}\end{pBox}}
+%----------------------------------------------------------------------------------------
+%	REMARK ENVIRONMENT
+%----------------------------------------------------------------------------------------
+
+\newenvironment{remark}{\par\vspace{10pt}\small % Vertical white space above the remark and smaller font size
+\begin{list}{}{
+\leftmargin=35pt % Indentation on the left
+\rightmargin=25pt}\item\ignorespaces % Indentation on the right
+\makebox[-2.5pt]{\begin{tikzpicture}[overlay]
+\node[draw=olive!60,line width=1pt,circle,fill=olive!25,font=\sffamily\bfseries,inner sep=2pt,outer sep=0pt] at (-15pt,0pt){\textcolor{olive}{R}};\end{tikzpicture}} % Orange R in a circle
+\advance\baselineskip -1pt}{\end{list}\vskip5pt} % Tighter line spacing and white space after remark
+
+%----------------------------------------------------------------------------------------
+%	SECTION NUMBERING IN THE MARGIN
+%----------------------------------------------------------------------------------------
+
+\makeatletter
+\renewcommand{\@seccntformat}[1]{\llap{\textcolor{olive}{\csname the#1\endcsname}\hspace{1em}}}                    
+\renewcommand{\section}{\@startsection{section}{1}{\z@}
+{-4ex \@plus -1ex \@minus -.4ex}
+{1ex \@plus.2ex }
+{\normalfont\large\sffamily\bfseries}}
+\renewcommand{\subsection}{\@startsection {subsection}{2}{\z@}
+{-3ex \@plus -0.1ex \@minus -.4ex}
+{0.5ex \@plus.2ex }
+{\normalfont\sffamily\bfseries}}
+\renewcommand{\subsubsection}{\@startsection {subsubsection}{3}{\z@}
+{-2ex \@plus -0.1ex \@minus -.2ex}
+{.2ex \@plus.2ex }
+{\normalfont\small\sffamily\bfseries}}                        
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}
+{-2ex \@plus-.2ex \@minus .2ex}
+{.1ex}
+{\normalfont\small\sffamily\bfseries}}
+
+\renewcommand\thesection{\Roman{section}.} %redefine numbering before section title
+\renewcommand\thesubsection{\arabic{subsection}.}
+
+%----------------------------------------------------------------------------------------
+%	CHAPTER HEADINGS
+%----------------------------------------------------------------------------------------
+
+\addto\captionsfrench{\renewcommand{\chaptername}{Chapitre}}
+
+\usepackage{titlesec}
+
+\titleformat{\chapter}[block]{\color{teal}\LARGE\bfseries\filcenter}{\color{olive}\Huge\it\bfseries Chapitre \thechapter}{0pt}{\\}
+
+%\titleformat{\chapter}{\filcenter}
+
+%\newcommand{\thechapterimage}{}%
+%\newcommand{\chapterimage}[1]{\renewcommand{\thechapterimage}{#1}}%
+%\def\@makechapterhead#1{%
+%{\parindent \z@ \raggedright \normalfont
+%\ifnum \c@secnumdepth >\m@ne
+%\if@mainmatter
+%\begin{tikzpicture}[remember picture,overlay]
+%\node at (current page.north west)
+%{\begin{tikzpicture}[remember picture,overlay]
+%\node[anchor=north west,inner sep=0pt] at (0,0) {\includegraphics[width=\paperwidth]{\thechapterimage}};
+%\draw[anchor=west] (\Gm@lmargin,-9cm) node [line width=2pt,rounded corners=15pt,draw=olive,fill=white,fill opacity=0.5,inner sep=15pt]{\strut\makebox[22cm]{}};
+%\draw[anchor=west] (\Gm@lmargin+.3cm,-9cm) node {\huge\sffamily\bfseries\color{black}\thechapter. #1\strut};
+%\end{tikzpicture}};
+%\end{tikzpicture}
+%\else
+%\begin{tikzpicture}[remember picture,overlay]
+%\node at (current page.north west)
+%{\begin{tikzpicture}[remember picture,overlay]
+%\node[anchor=north west,inner sep=0pt] at (0,0) {\includegraphics[width=\paperwidth]{\thechapterimage}};
+%\draw[anchor=west] (\Gm@lmargin,-9cm) node [line width=2pt,rounded corners=15pt,draw=olive,fill=white,fill opacity=0.5,inner sep=15pt]{\strut\makebox[22cm]{}};
+%\draw[anchor=west] (\Gm@lmargin+.3cm,-9cm) node {\huge\sffamily\bfseries\color{black}#1\strut};
+%\end{tikzpicture}};
+%\end{tikzpicture}
+%\fi\fi\par\vspace*{270\p@}}}
+%
+%%-------------------------------------------
+%
+%\def\@makeschapterhead#1{%
+%\begin{tikzpicture}[remember picture,overlay]
+%\node at (current page.north west)
+%{\begin{tikzpicture}[remember picture,overlay]
+%\node[anchor=north west,inner sep=0pt] at (0,0) {\includegraphics[width=\paperwidth]{\thechapterimage}};
+%\draw[anchor=west] (\Gm@lmargin,-9cm) node [line width=2pt,rounded corners=15pt,draw=olive,fill=white,fill opacity=0.5,inner sep=15pt]{\strut\makebox[22cm]{}};
+%\draw[anchor=west] (\Gm@lmargin+.3cm,-9cm) node {\huge\sffamily\bfseries\color{black}#1\strut};
+%\end{tikzpicture}};
+%\end{tikzpicture}
+%\par\vspace*{270\p@}}
+%\makeatother
+%
+%----------------------------------------------------------------------------------------
+%	HYPERLINKS IN THE DOCUMENTS
+%----------------------------------------------------------------------------------------
+%
+%\usepackage{hyperref}
+%\hypersetup{hidelinks,backref=true,pagebackref=true,hyperindex=true,colorlinks=false,breaklinks=true,urlcolor= olive,bookmarks=true,bookmarksopen=false,pdftitle={Title},pdfauthor={Author}}
+%\usepackage{bookmark}
+%\bookmarksetup{
+%open,
+%numbered,
+%addtohook={%
+%\ifnum\bookmarkget{level}=0 % chapter
+%\bookmarksetup{bold}%
+%\fi
+%\ifnum\bookmarkget{level}=-1 % part
+%\bookmarksetup{color=olive,bold}%
+%\fi
+%}
+%}
+
+%----------------------------------------------------------------------------------------
+%	MATH STUFF
+%----------------------------------------------------------------------------------------
+
+
+
+
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+\usepackage{pbox}
+
+\usepackage{bbm}
+
+\usepackage{xcolor,colortbl}
+
+\usepackage{pgfplots}
+
+\usepackage{mathtools}
+
+\usepackage{stmaryrd} %double square brackets
+
+\usepackage{cancel}
+
+\usepackage[utf8]{inputenc}
+\usepackage[upright]{fourier}
+\usepackage{tikz}
+\usetikzlibrary{matrix,arrows,decorations.pathmorphing}
+\usetikzlibrary{shapes,snakes}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+\usetikzlibrary{patterns}
+\usetikzlibrary{arrows}
+
+
+\usepackage{graphicx}
+\usepackage{wrapfig}
+
+
+\newcommand{\fonction}[5]{\begin{array}{lrcl}
+		#1: & #2 & \longrightarrow & #3 \\
+		& #4 & \longmapsto & #5 \end{array}}
+
+\newcommand{\fonctionsans}[4]{\begin{array}{rcl}
+		#1 & \longrightarrow & #2 \\
+		#3 & \longmapsto & #4 \end{array}}
+
+\newcommand{\intent}[2]{\llbracket #1, #2 \rrbracket}
+
+\newcommand{\Lim}[1]{\raisebox{0.5ex}{\scalebox{0.8}{$\displaystyle \lim_{#1}\;$}}}
+\newcommand{\limninf}{\Lim{n\rightarrow +\infty}}
+\newcommand{\limx}[2]{\Lim{#1\rightarrow #2}}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\KX}{\K[X]}
+\newcommand{\KnX}{\K_n[X]}
+\newcommand{\Prob}[1]{\mathbb{P}\left(#1\right)}
+\newcommand{\card}[1]{\textnormal{card}\left(#1\right)}
+
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\vect}[1]{\textsc{Vect}\left( #1 \right)}
+
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\Btn}{\mathcal{B}=\left(b_1,...,b_n\right)}
+
+\newcommand{\Df}{\mathcal{D}_f}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\EE}{\mathbb{E}}
+
+\newcommand{\Rbar}{\overline{\R}}
+\newcommand{\Var}{\mathbb{V}}
+\newcommand{\V}{\forall}
+\newcommand{\E}{\exists}
+
+\newcommand{\inR}{\in\R}
+\newcommand{\inN}{\in\N}
+\newcommand{\inZ}{\in\Z}
+\newcommand{\inC}{\in\C}
+\newcommand{\inQ}{\in\Q}
+
+\newcommand{\vi}{\overrightarrow{i}}
+\newcommand{\vj}{\overrightarrow{j}}
+\newcommand{\vu}{\overrightarrow{u}}
+\newcommand{\vv}{\overrightarrow{v}}
+\newcommand{\vpts}[2]{\overrightarrow{#1#2}}
+\newcommand{\vn}{\overrightarrow{0}}
+\newcommand{\vdet}[2]{\det\left(\overrightarrow{#1},\overrightarrow{#2}\right)}
+\newcommand{\VV}[2]{\left(\begin{array}{c} #1 \\ #2 \end{array}\right)}
+\newcommand{\DetC}[4]{\left| \begin{array}{cc}
+#1 & #3 \\
+#2 & #4
+\end{array}\right|}
+
+
+\def\myrad{3cm}% radius of the circle
+\def\myang{60}% angle for the arc
+\newcommand{\ii}{\overrightarrow{i}}
+\newcommand{\jj}{\overrightarrow{j}}
+\newcommand{\uu}{\overrightarrow{u}}
+\newcommand{\nn}{\overrightarrow{n}}
+
+
+\newcommand{\AB}{\overrightarrow{AB}}
+\newcommand{\BC}{\overrightarrow{BC}}
+\newcommand{\AC}{\overrightarrow{AC}}
+\newcommand{\CD}{\overrightarrow{CD}}
+\newcommand{\er}{\overrightarrow{e_r}}
+\newcommand{\etheta}{\overrightarrow{e_{\theta}}}
+\newcommand{\OM}{\overrightarrow{OM}}
+\newcommand{\OmM}{\overrightarrow{\Omega M}}
+\newcommand{\AM}{\overrightarrow{AM}}
+\newcommand{\MA}{\overrightarrow{MA}}
+\newcommand{\MB}{\overrightarrow{MB}}
+
+\newcommand{\VninN}{\V n \inN}
+\newcommand{\VxinR}{\V x \inR}
+\newcommand{\Veps}{\V \varepsilon> 0}
+
+\newcommand{\Un}{\left(u_n\right)_{n\in \N}}
+\newcommand{\floor}[1]{\lfloor #1 \rfloor}
+\newcommand{\ceil}[1]{\lceil #1 \rceil}
+
+\newcommand{\hto}{\underset{h\to 0}{\longrightarrow}}
+\newcommand{\ntoinfty}{\underset{n\to +\infty}{\longrightarrow}}
+\newcommand{\MnK}{\mathcal{M}_n(\K)}
+
+\newcommand{\diag}{\textnormal{Diag}}
+
+\def\G{{\frak S}}
+
+\newcommand{\EPbF}{\left(\Omega,\mathcal{P}(\Omega)\right)}
+
+\newcommand{\EPF}{\left(\Omega,\mathcal{P}(\Omega),P\right)}
+
+\newcommand{\EP}{\left(\Omega,\mathcal{A},P\right)}
+
+\newcommand{\egloi}{\stackrel{\mathcal{L}}{=}}
+
+\newcommand{\rg}{\textnormal{rg}}
+
+\newcommand{\im}{\textnormal{im}}
+
+% l' unite
+\newcommand{\myunit}{1 cm}
+\tikzset{
+	node style sp/.style={draw,circle,minimum size=\myunit},
+	node style ge/.style={circle,minimum size=\myunit},
+	arrow style mul/.style={draw,sloped,midway,fill=white},
+	arrow style plus/.style={midway,sloped,fill=white},
+}
+
+\newcommand{\preuveadmise}[1]{\begin{proof}
+Cette preuve est admise. #1
+\end{proof}}
+
+\newcommand{\ArbreProba}[3]{	\begin{center}
+		\begin{tikzpicture}
+		\tikzstyle{level 1}=[level distance=5cm, sibling distance=4cm]
+		\tikzstyle{level 2}=[level distance=5cm, sibling distance=3cm]
+		\node{}[grow=right]
+		child{node{$A$}
+			child{node{$B$}                     edge from parent node[below]{}}
+			child{node{$\overline B$}           edge from parent node[above]{${#3}$}}
+			edge from parent node[below]{}}
+		child{node{$\overline A$}
+			child{node{$B$}           edge from parent node[below]{${#2}$}}
+			child{node{$\overline B$} edge from parent node[above]{}}
+			edge from parent node[above]{${#1}$}};
+		\end{tikzpicture}
+	\end{center}
+}
+
+\newcommand{\ArbreProbaSave}[3]{	\begin{center}
+		\begin{tikzpicture}
+		\tikzstyle{level 1}=[level distance=5cm, sibling distance=4cm]
+		\tikzstyle{level 2}=[level distance=5cm, sibling distance=3cm]
+		\node{}[grow=right]
+		child{node{$A$}
+			child{node{$A\cap B$}                     edge from parent node[below]{$\mathbb{P}_A(B)={}$}}
+			child{node{$A\cap \overline B$}           edge from parent node[above]{$\mathbb{P}_A(\overline B)={#3}$}}
+			edge from parent node[below]{$\mathbb{P}( A)={}$}}
+		child{node{$\overline A$}
+			child{node{$\overline A\cap S$}           edge from parent node[below]{$\mathbb{P}_{\overline A}(B)={#2}$}}
+			child{node{$\overline A\cap \overline B$} edge from parent node[above]{$\mathbb{P}_{\overline A}(\overline B)={}$}}
+			edge from parent node[above]{$\mathbb{P}(\overline A)={#1}$}};
+		\end{tikzpicture}
+	\end{center}
+}
+
+
+
+
+
+\newcommand{\ArbreProbaComplet}[6]{	\begin{center}
+		\begin{tikzpicture}
+		\tikzstyle{level 1}=[level distance=5cm, sibling distance=4cm]
+		\tikzstyle{level 2}=[level distance=5cm, sibling distance=3cm]
+		\node{}[grow=right]
+		child{node{$A$}
+			child{node{$B$}                     edge from parent node[below]{${#3}$}}
+			child{node{$\overline{B}$}           edge from parent node[above]{${#4}$}}
+			edge from parent node[below]{${#1}$}}
+		child{node{$\overline A$}
+			child{node{$B$}           edge from parent node[below]{${#5}$}}
+			child{node{$\overline B$} edge from parent node[above]{${#6}$}}
+			edge from parent node[above]{${#2}$}};
+		\end{tikzpicture}
+\end{center}}
+
+\newcommand{\ArbreProbaCompletSave}[6]{	\begin{center}
+		\begin{tikzpicture}
+		\tikzstyle{level 1}=[level distance=5cm, sibling distance=4cm]
+		\tikzstyle{level 2}=[level distance=5cm, sibling distance=3cm]
+		\node{}[grow=right]
+		child{node{$A$}
+			child{node{$A\cap B$}                     edge from parent node[below]{$\mathbb{P}_A(B)={#3}$}}
+			child{node{$A\cap \overline B$}           edge from parent node[above]{$\mathbb{P}_A(\overline B)={#4}$}}
+			edge from parent node[below]{$\mathbb{P}(A)={#1}$}}
+		child{node{$\overline A$}
+			child{node{$\overline A\cap B$}           edge from parent node[below]{$\mathbb{P}_{\overline A}(B)={#5}$}}
+			child{node{$\overline A\cap \overline S$} edge from parent node[above]{$\mathbb{P}_{\overline A}(\overline B)={#6}$}}
+			edge from parent node[above]{$\mathbb{P}(\overline A)={#2}$}};
+		\end{tikzpicture}
+\end{center}}
+
+%\def\Q{\mathbb Q}
+%\def\R{\mathbb R}
+%\def\S{S}
+%\def\N{\mathbb N}
+%\def\P{\mathbb P}
+%\def\dt{\,dt}
+%\def\dz{\,dz}
+%\def\du{\,du}
+%\def\bnk{b(n,k)}
+%\def\Var{\hbox{Var}}
+%\def\Pr{\hbox{Pr}\,}
+%\def\Des{\hbox{Des}}
+%\def\E{\hbox{E}}
+%\def\maj{\hbox{maj}}
+%\def\limn{\lim_{n\to\infty}}
+%\def\lbxn{\lfloor (x)_n \rfloor}
+%\def\Xnj{X_{n,j}}
+%\def\Pnj{P_{n,j}}
+%\def\Qln{Q_{\lambda,n}}
+%\def\Xln{X_{\lambda,n}}
+%\def\All{A_{\lambda_i-1}}
+%\def\sip{\sum_{i=1}^p}
+%\def\pip{\prod_{i=1}^p}
+%%
+%\def\G{{\frak S}}
+%\def\D{{\frak D}}
+
+%----------------------------------------------------------------------------------------
+%	PYTHON
+%----------------------------------------------------------------------------------------
+
+
+\usepackage{xcolor}
+\definecolor{maroon}{cmyk}{0, 0.87, 0.68, 0.32}
+\definecolor{halfgray}{gray}{0.55}
+\definecolor{ipython_frame}{RGB}{207, 207, 207}
+\definecolor{ipython_bg}{RGB}{247, 247, 247}
+\definecolor{ipython_red}{RGB}{186, 33, 33}
+\definecolor{ipython_green}{RGB}{0, 128, 0}
+\definecolor{ipython_cyan}{RGB}{64, 128, 128}
+\definecolor{ipython_purple}{RGB}{170, 34, 255}
+
+\usepackage{listingsutf8}
+
+\lstset{inputencoding=utf8/latin1}
+
+\lstset{
+	breaklines=true,
+	%
+	extendedchars=true,
+	literate=
+	{á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+	{Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+	{à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+	{À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+	{ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+	{Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+	{â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+	{Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+	{œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+	{ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+	{€}{{\EUR}}1 {£}{{\pounds}}1
+}
+
+\lstdefinelanguage{iPython}{
+	morekeywords={access,and,break,class,continue,def,del,elif,else,except,exec,finally,for,from,global,if,import,in,is,lambda,not,or,pass,print,raise,return,try,while},%
+	%
+	% Built-ins
+	morekeywords=[2]{abs,all,any,basestring,bin,bool,bytearray,callable,chr,classmethod,cmp,compile,complex,delattr,dict,dir,divmod,enumerate,eval,execfile,file,filter,float,format,frozenset,getattr,globals,hasattr,hash,help,hex,id,input,int,isinstance,issubclass,iter,len,list,locals,long,map,max,memoryview,min,next,object,oct,open,ord,pow,property,range,raw_input,reduce,reload,repr,reversed,round,set,setattr,slice,sorted,staticmethod,str,sum,super,tuple,type,unichr,unicode,vars,xrange,zip,apply,buffer,coerce,intern},%
+	%
+	sensitive=true,%
+	morecomment=[l]\#,%
+	morestring=[b]',%
+	morestring=[b]",%
+	%
+	morestring=[s]{'''}{'''},% used for documentation text (mulitiline strings)
+	morestring=[s]{"""}{"""},% added by Philipp Matthias Hahn
+	%
+	morestring=[s]{r'}{'},% `raw' strings
+	morestring=[s]{r"}{"},%
+	morestring=[s]{r'''}{'''},%
+	morestring=[s]{r"""}{"""},%
+	morestring=[s]{u'}{'},% unicode strings
+	morestring=[s]{u"}{"},%
+	morestring=[s]{u'''}{'''},%
+	morestring=[s]{u"""}{"""},%
+	%
+	% {replace}{replacement}{lenght of replace}
+	% *{-}{-}{1} will not replace in comments and so on
+	literate=
+	{á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+	{Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+	{à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+	{À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+	{ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+	{Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+	{â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+	{Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+	{œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+	{ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+	{€}{{\EUR}}1 {£}{{\pounds}}1
+	%
+	{^}{{{\color{ipython_purple}\^{}}}}1
+	{=}{{{\color{ipython_purple}=}}}1
+	%
+	{+}{{{\color{ipython_purple}+}}}1
+	{*}{{{\color{ipython_purple}$^\ast$}}}1
+	{/}{{{\color{ipython_purple}/}}}1
+	%
+	{+=}{{{+=}}}1
+	{-=}{{{-=}}}1
+	{*=}{{{$^\ast$=}}}1
+	{/=}{{{/=}}}1,
+	literate=
+	*{-}{{{\color{ipython_purple}-}}}1
+	{?}{{{\color{ipython_purple}?}}}1,
+	%
+	identifierstyle=\color{black}\ttfamily,
+	commentstyle=\color{ipython_cyan}\ttfamily,
+	stringstyle=\color{ipython_red}\ttfamily,
+	keepspaces=true,
+	showspaces=false,
+	showstringspaces=false,
+	%
+	rulecolor=\color{ipython_frame},
+	frame=single,
+	frameround={t}{t}{t}{t},
+	numbers=left,
+	numberstyle=\footnotesize\color{halfgray},
+	numbersep=1em,
+	xleftmargin=1em,
+	framextopmargin=0em,
+	framexbottommargin=0em,
+	%
+	%
+	backgroundcolor=\color{ipython_bg},
+	%   extendedchars=true,
+	basicstyle=\ttfamily\small\setstretch{1},
+	keywordstyle=\color{ipython_green}\ttfamily,
+	inputencoding=utf8/latin1,
+}
+
+\lstdefinelanguage{Pseudo}{
+	numbers=left,
+	numberstyle=\footnotesize,
+	numbersep=1em,
+	xleftmargin=1em,
+	framextopmargin=0em,
+	framexbottommargin=0em,
+	showspaces=false,
+	showtabs=false,
+	showstringspaces=false,
+	frame=lrtb,
+	tabsize=4,
+	inputencoding=utf8/latin1,
+	% Basic
+	basicstyle=\ttfamily\small\setstretch{1},
+	backgroundcolor=\color{white},
+	% Comments
+	commentstyle=\color{Comments}\slshape,
+	% Strings
+	stringstyle=\color{red},
+	morecomment=[s][\color{Strings}]{"""}{"""},
+	morecomment=[s][\color{Strings}]{'''}{'''},
+	% keywords
+	% additional keywords
+	literate=
+	{=}{$\leftarrow{}$}{1}
+	{==}{$={}$}{1}
+	{á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+	{Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+	{à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+	{À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+	{ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+	{Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+	{â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+	{Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+	{œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+	{ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+	{€}{{\EUR}}1 {£}{{\pounds}}1,
+	morekeywords={Pour, Fin, Faire,Si, Alors, Sinon, est, vraie, si, pour, faire, Afficher, allant, de, Tant, tant, que},
+	keywordstyle=\ttfamily\bf,
+	emph={self},
+	emphstyle={\color{self}\slshape},
+	%
+	breaklines=true
+}
+
+\usepackage{adjustbox}
+\usepackage{varwidth}

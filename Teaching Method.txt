@@ -1,0 +1,13 @@
+How to teach these courses ?
+1°) Write everything in a jupyter Notebook (in order to keep the same format for students)
+2°) After each session there will be applications to do during and outside the class (to cement the informations)
+3°) After each chapter, students have to make summary of the course and a cheat sheet. 
+4°) The cheat sheet will be available to the test but the length will have an upper bound.
+
+In addition, there will be more explanations on the black board (students can draw it on papers and add them (the photo to their jupyter notebook)).
+
+There will be 4 kinds of grades:
+- The computer science exercice to do in class
+- The theoric exercices to do in class
+- The medium/long term project and their presentation
+- The small exercises to make one session to the other

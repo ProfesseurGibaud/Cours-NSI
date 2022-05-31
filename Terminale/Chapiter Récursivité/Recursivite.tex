@@ -1,0 +1,95 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[12pt,fleqn]{book} % Default font size, left-justified equations, chapters start on any page
+
+%----------------------------------------------------------------------------------------
+\input{structure}
+\input{structureSG} % Insert the commands.tex file which contains the majority of the structure behind the template
+\date{}
+
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+	
+\setcounter{chapter}{1}
+\chapter{Récursivité}
+\section{Définition et premier exemple}
+\begin{definition}
+La récursivité est une démarche qui fait référence à l'objet même de la démarche à un moment du processus. En d'autres termes, c'est une démarche dont la description mène à la répétition d'une même règle. Par exemple : 
+\begin{itemize}
+	\item écrire un algorithme qui s'invoque lui-même
+	\item définir une structure à partir de l'une au moins de ses sous-structures.
+\end{itemize}
+\end{definition}
+	
+	
+\begin{example}
+On définit factorielle $n$, $n!$ par : $n! = n \times (n-1) \times \dots 2 \times 1$.
+On peut voir la factorielle de la façon suivante :
+\begin{align*}
+5! & = 5 \times 4! \\
+& = 5 \times 4 \times 3! \\
+& = 5 \times 4 \times 3 \times 2! \\
+& = 5 \times 4 \times 3 \times 2 \times 1	
+& = 120
+\end{align*}
+\end{example}
+
+
+
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=iPython,linewidth = 12cm]
+def fact(n):
+	if n <= 1:
+		return 1
+	else:
+		return n * fact(n-1)
+
+fact(5) = 120\end{lstlisting}
+\end{varwidth}\end{center}
+
+\section{Déroulé d'un programme récursif}
+
+Chaque appel récursif s'ajoute à la pile des appels successifs de la fonction. Chaque appel possède son propre environnement, donc ses propres variables. La pile est nécessaire pour mémoriser les valeurs propre à chaque appel.
+
+\begin{remark}
+	\textbf{Attention !!!} En python, la taille de la pile des appels récursifs est limitée. Si la récursivité est trop profonde et que l'on atteint cette limite, on déclenche une \textit{RecursionError}
+\end{remark}
+
+\section{Eléments Caractéristiques}
+
+\subsection{Cas d'arrêt}
+
+Il faut que dans la procédure, il y ait au moins une situation qui ne consiste pas en un appel récursif (Sinon la procédure ne s'arrêterait jamais). Dans la fonction Factorielle le cas d'arrêt est :
+
+
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=iPython,linewidth = 12cm]
+if n <= 1:
+	return 1
+\end{lstlisting}
+\end{varwidth}\end{center}
+
+Cette situation est appelé \textbf{situation de terminaison},\textbf{situation d'arrêt},\textbf{cas d'arrêt} ou \textbf{cas de base}.
+
+\subsection{Il faut se rapprocher du cas d'arrêt}
+
+Là où la récursivité et la récurrence sont vraiment \textbf{DIFFÉRENTES} est le cas suivant. Une récurrence (classique) part d'un cas d'initialisation et va s'en éloigner pour aller vers $+\infty$. Visuellement on déplace le même problème avec juste des nombres plus gros. Une récursivité a plus un effet de loupe, à chaque appel on rapproche la loupe du cas d'arrêt. \\
+Plus simplement, l'appel récursif doit modifier l'argument \textbf{vers} le cas d'arrêt.
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=iPython,linewidth = 12cm]
+return n*fact(n-1)\end{lstlisting}
+\end{varwidth}\end{center}
+Il faut s'assurer que la situation de terminaison est atteinte après un nombre fini d'appels récursifs. \\
+
+La preuve de terminaison d'un algorithme récursif se fait en identifiant la construction d'une suite strictement décroissante d'entiers positifs ou nuls. Dans le cas de la factorielle, il s'agit simplement de la suite des valeurs du paramètre.
+
+
+
+\end{document}

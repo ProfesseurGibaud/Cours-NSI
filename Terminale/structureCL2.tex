@@ -1,0 +1,193 @@
+\usepackage{xcolor} % Required for specifying colors by name
+\definecolor{Hred}{HTML}{B21353} % Define the orange color used for highlighting throughout the book
+\definecolor{Hblue}{HTML}{002451}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+\def\pageDeGarde{
+	{
+		\thispagestyle{empty}
+		\centering
+		\includegraphics[width=250pt]{Cours-Legendre-a-distance.png}
+		
+		\vspace{200pt}
+		{\Huge 
+			\color{Hred}
+			\textbf{MATHÉMATIQUES}
+		}
+		
+		\vspace{15pt}
+		
+		{\LARGE
+			\color{Hblue}
+			\textbf{Classe de Seconde}
+		}
+		
+		\vspace{50pt}
+		
+		{\Large
+			\color{black}
+			\texttt{-Troisième trimestre-}
+		}
+		
+		\vfill
+		
+		76/78 rue Saint Lazare -- 75009 Paris
+		
+		\vspace{15pt}
+		
+		{\Large
+			\color{Hred}
+			\textbf{COURS-LEGENDRE-EAD.FR}
+		}
+		
+	}
+	
+	%----------------------------------------------------------------------------------------
+	%	COPYRIGHT PAGE
+	%----------------------------------------------------------------------------------------
+	
+	\newpage
+	
+	{
+		\thispagestyle{empty}
+		\centering
+		
+		~\vfill
+		
+		\copyright COURS-LEGENDRE – Septembre 2019
+		
+		{\footnotesize Toute reproduction, même partielle, par tous procédés, en tous pays, faite sans autorisation préalable est illicite et exposerait le contrevenant à des poursuites judiciaires. (loi du 11 mars 1957)}
+		
+	}
+}
+
+
+\newcommand{\titleCorrections}[1]{
+	\newpage
+	
+	{
+		\thispagestyle{empty}
+		\centering
+		
+		\hspace{0pt}
+		\vfill
+		
+		{\Huge 
+			\color{Hred}
+			\textbf{\textit{Corrigés des exercices\\
+					non à soumettre}}
+		}
+		
+		
+		\vfill
+		\hspace{0pt}
+		
+	}
+	
+	\setcounter{chapter}{#1}
+	\setcounter{page}{0}
+}
+
+%----------------------------------------------------------------------------------------
+%	PAGE HEADERS AND FOOTERS
+%----------------------------------------------------------------------------------------
+\usepackage{graphicx} % Required for including pictures
+\graphicspath{{Pictures/}} % Specifies the directory where pictures are stored
+
+\usepackage{fancyhdr} % Required for header and footer configuration
+
+\let\oldheadrule\headrule % Copy \headrule into \oldheadrule for no infinite loops
+\let\oldfootrule\footrule
+
+\fancypagestyle{plain}{
+	
+	\fancyhf{}% Clear header/footer
+	
+	\lhead{\begin{minipage}{1.5cm}
+		\includegraphics[width=1cm]{logo_cours_legendre.png}
+	\end{minipage}{\color{Hblue}\textbf{Cours de mathématiques}}}
+	\rhead{{\color{Hblue}\textbf{Classe de seconde}}}
+	
+	\renewcommand{\headrule}{\color{lightgray}\oldheadrule}% Add colour to \headrule
+	\renewcommand{\headrulewidth}{0.25pt}
+	
+	\cfoot{\color{black}Trimestre 3 - page \thepage}
+	
+	\renewcommand{\footrule}{\color{Hblue}\oldfootrule}% Add colour to \footrule
+	\renewcommand{\footrulewidth}{0.25pt}
+}
+
+\pagestyle{plain}% Set page style to plain.
+
+%----------------------------------------------------------------------------------------
+%	DEVOIR
+%----------------------------------------------------------------------------------------
+
+\newcommand{\devoir}[1]{
+	\newpage
+	
+	\thispagestyle{empty}
+	
+	
+	\begin{minipage}{0.6\textwidth}
+		\includegraphics[width=105pt]{Cours-Legendre-a-distance.png}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.3\textwidth}
+		{\color{Hred}\bi{Cours Legendre}}\\
+		76/78, rue Saint Lazare\\
+		75009 Paris
+	\end{minipage}
+	
+	\smallskip
+	
+	\LARGE
+	\noindent
+	\begin{tabular}{L{.6\textwidth}|L{.345\textwidth}}
+		\hline
+		\textbf{Classe de Seconde} & \multirow{2}{*}{{\color{Hred}\bi{Devoir n\degres#1}}}\\
+		\textbf{Mathématiques} & \\\hline
+	\end{tabular}
+	\normalsize
+	
+	\setcounter{chapter}{#1}
+	\setcounter{exerciseT}{0}
+}
+
+\newcommand{\correctionDevoir}[1]{
+
+	\newpage
+	
+	\thispagestyle{empty}
+	
+	
+	\begin{minipage}{0.6\textwidth}
+		\includegraphics[width=105pt]{Cours-Legendre-a-distance.png}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.3\textwidth}
+		{\color{Hred}\bi{Cours Legendre}}\\
+		76/78, rue Saint Lazare\\
+		75009 Paris
+	\end{minipage}
+	
+	\smallskip
+	
+	
+	\LARGE
+	\noindent
+	\begin{tabular}{L{.6\textwidth}|L{.345\textwidth}}
+		\hline
+		\textbf{Classe de Seconde} & \multirow{2}{*}{{\color{Hred}\bi{Devoir n\degres#1}}}\\
+		\textbf{Mathématiques} & \\\hline
+	\end{tabular}
+	\begin{center}
+		\textbf{Correction}
+	\end{center}
+	\normalsize
+	
+	\setcounter{chapter}{#1}
+	\setcounter{correctionT}{0}
+}

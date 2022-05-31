@@ -1,0 +1,58 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[12pt,fleqn]{article} % Default font size, left-justified equations, chapters start on any page
+
+%----------------------------------------------------------------------------------------
+\input{structure}
+\input{structureSG} % Insert the commands.tex file which contains the majority of the structure behind the template
+
+
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+
+\title{Interface et Implémentation}
+\maketitle
+
+
+Les quatre méthodes qui ont été définies dans la classe list en Python: \textit{len, pop, insert} sont ce que l'on appelle une implémentation de la structure de donnée tableau.
+
+
+
+\begin{definition}
+	L'implémentation d'une structure de données ou d'un algorithme est une mise en œuvre pratique dans un langage de programmation.
+\end{definition}
+
+
+Il existe de nombreux langages de programmation qui implémentent le type abstrait \textit{tableau}, nous avions vu l'année dernière les différences d'implémentation entre les \textit{list} de Python et les \textit{Array} de javascript.
+
+Cependant, on retrouve des méthodes similaires qui sont ce que l'on appelle l'interface de la structure de données \textit{tableau}:
+
+\begin{enumerate}
+	\item "Insérer" : ajoute un élément dans le tableau à l'index souhaité. \textit{ajouter(index,elt)}
+		\item "Retirer" : retire un élément dans le tableau à l'index souhaité. \textit{suppr(index)}
+	\item "Le tableau est-il vide" : Renvoie \textit{Vrai} si le tableau est vide et faux sinon. \textit{est\_vide()}
+	\item "Nombre d'éléments dans le tableau" : Renvoie le nombre d'éléments dans le tableau. \textit{longueur()}
+	
+\end{enumerate}
+
+
+
+\begin{definition}
+	L'interface d'une structure de données est la \textit{spécification} des méthodes pouvant être appliquées sur cette structure de données.
+\end{definition}
+
+Cela permet d'expliquer l'intérêt du pseudo-langage (ou pseudo-code). L'intérêt de définir des structures de données avec une interface commune est de pouvoir écrire des algorithmes sur le papier en utilisant l'interface définie.
+
+On utilise alors un pseudo-langage plus ou moins proche de la langue naturelle qui pourra être implémenté dans tous les langages de programmation ayant défini la structure de données.
+
+\begin{exercise}
+	Créer une classe \textit{Tableau} qui implémente les quatre méthodes ci-dessus en stockant les données du tableau dans un attribut appelé \textit{data} de type liste.
+\end{exercise}
+
+
+\end{document}

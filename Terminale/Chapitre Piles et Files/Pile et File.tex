@@ -1,0 +1,245 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[12pt,fleqn]{article} % Default font size, left-justified equations, chapters start on any page
+
+%----------------------------------------------------------------------------------------
+\input{structure}
+\input{structureSG} % Insert the commands.tex file which contains the majority of the structure behind the template
+
+
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+
+\title{Cours : les Piles et Files}
+\maketitle
+
+
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[scale = 1]{PileFile1}
+	\end{center}
+\end{figure}
+
+
+Tout ceci est parfaitement conforme à l’intuition d’une pile d’assiettes, ou de la queue devant un guichet, et suggère fortement des techniques d’implémentations pour les piles et les files.
+
+
+\section{Piles}
+
+\subsection{Structure de données}
+
+Une pile en python est une structure de données variables qui stoque des données à la suite. Le système d'agglomération des données est le FILO (First In Last Out). On l'implémente en python avec des listes. \\
+
+Il y a plusieurs types d'opérations sur les Piles que l'on écrira avec des méthodes.
+\begin{enumerate}
+	\item La méthode : \textit{\_\_init\_\_} qui est le constructeur. On initie la pile à une liste vide.
+	\begin{center}
+		\begin{varwidth}[t]{.5\textwidth}
+			\begin{lstlisting}[language=iPython,linewidth = 15cm]
+class Pile:
+	def __init__(self):
+		self.data = []\end{lstlisting}
+	\end{varwidth}\end{center}
+	\item La méthode \textit{empiler} pour ajouter un élément dans une liste.
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=iPython,linewidth = 15cm]
+def empiler(self,element):
+	self.data.append(element)\end{lstlisting}
+\end{varwidth}\end{center}
+	\item La méthode \textit{hauteur} pour donner la hauteur de la pile.
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=iPython,linewidth = 15cm]
+def hauteur(self):
+	return len(self.data)\end{lstlisting}
+\end{varwidth}\end{center}
+	\item La méthode \textit{est\_vide} pour donner un booléen pour savoir si la liste est vide.
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=iPython,linewidth = 15cm]
+def est_vide(self):
+	return self.hauteur() == 0\end{lstlisting}
+	\end{varwidth}\end{center}
+	\item La méthode \textit{depiler} pour enlever un item de la pile et l'obtenir (Il peut y avoir une erreur si la liste est vide. En exercice vous traiterez ce cas).
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=iPython,linewidth = 15cm]
+def depiler(self):
+	return self.data.pop()\end{lstlisting}
+\end{varwidth}\end{center} 
+\item La méthode \textit{sommet} pour voir/récupérer le dernier élément de la liste.
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=iPython,linewidth = 15cm]
+def sommet(self):
+	return self.data[-1]\end{lstlisting}
+\end{varwidth}\end{center} 
+
+\end{enumerate}
+
+\subsection{Exercices sur les piles}
+
+Pour faire les exercices suivants vous n'utiliserez que les méthodes précédentes. A la fin de chaque méthode vous ajouterez une condition pour vérifier que le nombre de cartes (objets) est respectée.
+
+\begin{exercise}
+Faites une méthode qui retourne l'ordre de la pile.
+\begin{enumerate}
+	\item Avec les cartes
+	\item En pseudo code
+	\item Sur les ordinateurs en python
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Faites une fonction qui divise une pile en 2 piles (une avec la première moitié des cartes et une avec la seconde moitié des cartes)
+\begin{enumerate}
+	\item Avec les cartes
+	\item En pseudo code
+	\item Sur les ordinateurs en python
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Faites une fonction qui fusionne deux piles en alternant une carte de chaque pile.
+\begin{enumerate}
+	\item Avec les cartes
+	\item En pseudo code
+	\item Sur les ordinateurs en python
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Faites une fonction mélange\_américain qui fusionne deux piles en alternant une ou deux cartes (le 1 ou 2 choisis aléatoirement) de chaque pile. 
+\begin{enumerate}
+	\item Avec les cartes
+	\item En pseudo code
+	\item Sur les ordinateurs en python
+\end{enumerate}
+\end{exercise}
+
+
+\section{Files}
+
+\subsection{Structure de données}
+
+Une file en python est une structure de données variables qui stoque des données à la suite. Le système d'agglomération des données est le FIFO (First In First Out). On l'implémente en python avec des listes. \\
+
+Il y a plusieurs types d'opérations sur les Files que l'on écrira avec des méthodes.
+\begin{enumerate}
+	\item La méthode : \textit{\_\_init\_\_} qui est le constructeur. On initie la pile à une liste vide.
+	\begin{center}
+		\begin{varwidth}[t]{.5\textwidth}
+			\begin{lstlisting}[language=iPython,linewidth = 15cm]
+class File:
+	def __init__(self):
+		self.data = []\end{lstlisting}
+	\end{varwidth}\end{center}
+	\item La méthode \textit{empiler} pour ajouter un élément dans une liste.
+	\begin{center}
+		\begin{varwidth}[t]{.5\textwidth}
+			\begin{lstlisting}[language=iPython,linewidth = 15cm]
+def enfiler(self,element):
+	self.data.append(element)\end{lstlisting}
+	\end{varwidth}\end{center}
+	\item La méthode \textit{longueur} pour donner la hauteur de la pile.
+	\begin{center}
+		\begin{varwidth}[t]{.5\textwidth}
+			\begin{lstlisting}[language=iPython,linewidth = 15cm]
+def longueur(self):
+	return len(self.data)\end{lstlisting}
+	\end{varwidth}\end{center}
+	\item La méthode \textit{est\_vide} pour donner un booléen pour savoir si la liste est vide.
+	\begin{center}
+		\begin{varwidth}[t]{.5\textwidth}
+			\begin{lstlisting}[language=iPython,linewidth = 15cm]
+def est_vide(self):
+	return self.longueur() == 0\end{lstlisting}
+	\end{varwidth}\end{center}
+	\item La méthode \textit{defiler} pour enlever un item de la pile et l'obtenir (Il peut y avoir une erreur si la liste est vide. En exercice vous traiterez ce cas).
+	\begin{center}
+		\begin{varwidth}[t]{.5\textwidth}
+			\begin{lstlisting}[language=iPython,linewidth = 15cm]
+def defiler(self):
+	return self.data.pop(0)\end{lstlisting}
+	\end{varwidth}\end{center} 
+	\item La méthode \textit{dernier} pour avoir le dernier arrivée dans la liste.
+		\begin{center}
+		\begin{varwidth}[t]{.5\textwidth}
+			\begin{lstlisting}[language=iPython,linewidth = 15cm]
+def dernier(self):
+	return self.data[-1]\end{lstlisting}\end{varwidth}\end{center} 
+	
+\end{enumerate}
+
+
+\subsection{Exercice}
+On va faire un long exercice filé sur les files d'attente. Vous ne pourrez utiliser que les méthodes définies dans l'exercice ou précédemment.
+
+\begin{exercise}
+Considérons la suite d'instructions suivantes:
+
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=Pseudo,linewidth = 6cm]
+F = Creer_file
+enfiler 21 à F
+enfiler 22 à F
+enfiler 23 à F
+N = defiler F
+enfiler 24 à F
+enfiler 25 à F
+N = defiler F
+\end{lstlisting}
+\end{varwidth}\hspace{2cm}
+\end{center}
+
+\`A la fin de cette séquence : \begin{enumerate}
+	\item Que contient N
+	\item Que contient la pile F
+\end{enumerate}
+\end{exercise}
+
+
+\begin{exercise}
+	Dans un supermarché il y a 5 caisses et une file d’attente commune. Dès qu’une caisse est libre, le client en tête de file y est
+	envoyé. Le temps de passage en caisse est aléatoirement compris entre 3 et 10 minutes. Il y a dix clients dans la file d’attente.
+	\begin{enumerate}
+		\item Réaliser une simulation de leurs passages en caisses et afficher en combien de minutes tous les clients sont passés.
+		\item  Refaire quelques essais avec plus de clients.
+		\item Réaliser une simulation de leurs passages en caisses et afficher en combien de minutes tous les clients sont passés
+	\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+	Un poste de contrôle est alimenté en pièces toutes les 7 minutes. Ces pièces sont de quatre types qui nécessitent respectivement
+	4, 6, 8 et 9 minutes pour être contrôlés. Les fréquences des quatre types sont identiques.
+	\begin{enumerate}
+		\item A l’aide d’une file, simuler le fonctionnement du poste de contrôle pendant 1 heure, puis 80 heures.
+		\item Calculer le nombre de pièces en attente de contrôle
+		\item Déterminer la durée de séjour des pièces dans le poste de contrôle. Afficher celle de la dernière
+		\item Le contrôleur fait une pause de 15 minutes toutes les 4 heures. Déterminer le nombre d’heures effectives de travail
+	\end{enumerate}
+\end{exercise}
+\begin{comment}
+\subsection{Exercice}
+
+
+\begin{exercise}
+\begin{enumerate}
+\item Initialiser une variable $\mu$ (vous pouvez écrire mu) et $\nu$ (vous pouvez écrire nu). Importer le module random et mettre dans une arrivée,random.expovariate(mu) et dans une variable service random.expovariate(nu)
+\item Faire une fonction qui prend en entrée un entier $n$ et qui renvoie une liste de temps d'arrivée en ajoutant à chaque fois une autre variable random.expovariate(mu)
+\item Faire une File (qui sera une file d'attente) avec les méthodes vus précédemment. On lui ajoutera comme attribut mu et nu.
+\item Faire une classe Individu avec comme attribut un numéro (qui augmente chaque fois de 1) et un temps de service (que l'on définira plus tard) et un temps d'arrivée.
+
+\item Faire une méthode qui prend en entrée un temps de fin $t_{\text{fin}}$ qui simule les temps d'arrivée et de service et qui ajoute les individus qui arrivent et enlève les individus qui ont été servis. (Il peut être utile de faire "couler" du temps, faire une variable temps qui s'incrémente et qui permet de gérer les évènements)
+\end{enumerate}
+\end{exercise}
+\end{comment}
+\end{document}
