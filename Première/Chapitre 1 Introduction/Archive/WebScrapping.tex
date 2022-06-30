@@ -1,0 +1,136 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[12pt,fleqn]{article} % Default font size, left-justified equations, chapters start on any page
+
+%----------------------------------------------------------------------------------------
+\input{structure}
+\input{structureSG} % Insert the commands.tex file which contains the majority of the structure behind the template
+\author{S. Gibaud}
+
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+
+\title{TP Guidé : WebScrapping}
+\maketitle
+
+\section{Le WebScrapping dans la vraie vie}
+
+Le WebScrapping est une activité très utilisé dans l'industrie informatique. En effet c'est un outil très efficace pour récolter des données sur Internet et pouvoir les traiter. Cependant est ce que c'est légal ? \\
+
+Extrait de \textit{L'usine Digitale} \\
+
+La pratique du web scraping pourrait être considérée comme un "vol de données" (atteinte au STAD) en s’appuyant sur l’article 323-3 du Code pénal qui énonce :
+
+"Le fait d'introduire frauduleusement des données dans un système de traitement automatisé, d'extraire, de détenir, de reproduire, de transmettre, de supprimer ou de modifier frauduleusement les données qu'il contient est puni de cinq ans d'emprisonnement et de 150 000 € d'amende. Lorsque cette infraction a été commise à l'encontre d'un système de traitement automatisé de données à caractère personnel mis en oeuvre par l'Etat, la peine est portée à sept ans d'emprisonnement et à 300 000 € d'amende." Il conviendrait toutefois de caractériser l’intention frauduleuse du web scraping.
+
+On peut également considérer qu’il s’agit d’un acte de concurrence déloyale ou d’une pratique de parasitisme, la personne recourant au web scraping n’ayant pas effectué les mêmes efforts (en termes de communication, d’investissements techniques, etc.) que le teneur du site pour collecter ces données.
+
+En outre, ce point se double d’exigences impératives en matière de protection des données à caractère personnel des utilisateurs à l’heure où le RGPD constitue une donne incontournable dans la stratégie des entreprises connectées. Il met en exergue la nécessité d’une gouvernance des données à caractère personnel (tant organisationnelle que juridique ou technique)... \\
+
+\textit{Le mot du professeur}\\
+
+Pour ne pas tomber dans l'illégalité dans le webscrapping.
+\begin{itemize}
+	\item Ne publiez pas en ligne les informations que vous avez récupérer avec le webscrapping.
+	\item Limitez au maximum le nombre de connexion au site (1 connexion maximum par page), comme vous le feriez en naviguant à la main. Les connexions sont faites grâce au module \textit{requests}. \textbf{NE METTEZ JAMAIS \textit{requests} DANS UNE BOUCLE}
+\end{itemize}
+Si les données sont en licence libre, alors vous avez le droit d'y accéder librement.
+
+
+
+\section{Installation des prerequis}
+
+Taper dans la console : 
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=iPython,linewidth = 10cm]
+pip install beautifulsoup4
+\end{lstlisting}\end{varwidth}\end{center}
+
+Cette commande permet d'installer la librairie beautifulsoup4 qui permet à partir du texte d'une page html d'obtenir un objet dans lequel on pourra naviguer.
+
+
+\section{Initialisation}\label{initialisation}
+
+On va charger les librairies dont on aura besoin : 
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=iPython,linewidth = 10cm]
+import requests
+import urllib.request
+import time
+from bs4 import BeautifulSoup
+import os
+\end{lstlisting}\end{varwidth}\end{center}
+\begin{itemize}
+	\item Les ligne 1 et 2  importe le module requests qui permet de faire des requêtes à des server web.
+	\item La ligne 3 permet d'importer le module time qui permettra au programme d'attendre (que la page se charge par exemple)
+	\item La ligne 4 importe le module beautifulsoup qui permet de rendre les pages html "intelligible"
+	\item la ligne 5 importe le package os qui permet de manipuler l'os.
+\end{itemize}
+
+Entrer dans une variable $url$ l'url du site qui vous intéresse. Ici dans ce tp pour vous guider on va prendre : "https://www.lnr.fr/rugby-top-14/classement-rugby-top-14". 
+
+\section{Navigation sur le site}
+\subsection{Navigation à la main}
+
+On va chercher où est la meilleure équipe de tout les temps dans le code html. Pour cela, entrer dans le navigateur l'url et faîte un clic droit sur \textbf{le stade Toulousain}.
+
+\begin{exercise}
+\begin{enumerate}
+	\item Donner la classe ("class") de l'objet que vous avez sélectionné.
+	\item Vérifier que la classe du parent de l'objet que vous avez sélectionné est\\ {"row-n-1"}.
+	\item Vérifier que le type du grand-père de l'objet que vous avez sélectionné est "table" et que ses classes sont "ranking-dividers" et "sorted-by-rank-asc" (ce dernier peut être modifié si vous avez touché au tri du tableau)
+\end{enumerate}
+\end{exercise}
+
+\subsection{Navigation du site en Python}
+
+\begin{exercise}
+\begin{enumerate}
+	\item Dans l'éditeur entrer : 
+\begin{center}
+	\begin{varwidth}[t]{.5\textwidth}
+		\begin{lstlisting}[language=iPython,linewidth = 13cm]	
+response = requests.get(url)
+soup = BeautifulSoup(response.text, "html.parser")
+\end{lstlisting}\end{varwidth}\end{center}
+	En utilisant votre cerveau et la section \ref{initialisation} que font ses deux lignes. Vous pouvez voir \textit{soup} dans la console pour avoir une idée de ce que vous obtenez.
+	\item Le nom de l'équipe étant dans un tableau "Td", nous allons récupérer toutes les balises td du fichier html. Pour cela affecter à une variable $TD$ \textit{soup.findAll("td")}. Quelle est le type de $TD$ ? quelle est la longueur de $TD$ ?
+	\item chaque élément de $TD$ fonctionne comme un dictionnaire avec plusieurs clé. Une de ces clé est "class". Faites une boucle qui affiche la "class" de tous les éléments de $TD$.
+	\item Le nom de l'équipe est dans les balises avec la class 'views-field-field--quipe'. Faite une boucle sur $TD$ qui affiche \textit{True} si l'élément de la liste a 'views-field-field--quipe' dans ses "class" et \textit{False} sinon. On pourra utiliser : \textit{'views-field-field--quipe' in td["class"]}	avec \textit{td} l'élement de $TD$. 
+	\item Pour obtenir le nom du club à partir d'un élément \textit{td} de \textit{TD} on fait : \textit{td.findChild().text}. Faîtes une boucle qui affiche le nom de toutes les équipes. En petit groupe proposer une explication de l'instruction \textit{td.findChild().text}.
+	\item Faites une boucle qui affiche \textit{True} si l'élément \textit{td} de \textit{TD} représente le Stade Toulousain et \textit{False} sinon. Vous devez avoir exactement 1 seul \textit{True}. (Les espaces peuvent vous jouer des tours, vous pouvez utiliser \textit{in}).
+	\item Pour obtenir toutes les informations sur les résultats du stade toulousain on doit aller voir sa balise parente. Pour se faire on va affecter à \textit{Parent} \textit{td.findParents()[0]}. Les données seront dans les enfants du parent (il faudra utiliser \textit{.findChildren()}). Donner le nombre d'enfants de \textit{Parent}.
+	\item \label{Stat}Explorer dans la console à la main les enfants de \textit{Parent}. Donner les index des enfants donnant : le rang (ranking), les points (field-point), la journée, le nombre de victoires, de défaites, de nuls, de bonus, de points marqués, de points concédés, de différences de points.
+	\item On peut obtenir le nombre dans l'enfant en ajoutant après l'enfant un \textit{.text}. Par exemple
+	\begin{center}
+		\begin{varwidth}[t]{.5\textwidth}
+			\begin{lstlisting}[language=iPython,linewidth = 4cm]
+>>>Children[15].text
+
+                 +109
+                 
+			\end{lstlisting}
+	\end{varwidth}\end{center}
+	Faire une fonction qui prend en argument une liste d'enfants et qui affiche les statistiques de la question \ref{Stat}.
+	\item Faire une boucle qui affiche les statistiques de toutes les équipes (penser à mettre le nom des équipes.)
+	\item Faire une fonction qui encapsule qui affiche les statistiques de toutes les équipes.
+	
+	
+
+\end{enumerate}
+
+\end{exercise}
+
+\section{Devoir Maison}
+
+Sur le site https://fbref.com/fr/pays/joueurs/FRA/Joueurs-de-football-de-France, combien il y a-t-il de joueurs de foot ayant un prénom qui commence par un "A" et qui ont "MF" à la suite de leur nom.
+Donner le code en python qui vous a permis de trouver la réponse.
+
+\end{document}
